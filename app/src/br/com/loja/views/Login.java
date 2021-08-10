@@ -2,6 +2,8 @@ package br.com.loja.views;
 
 import br.com.loja.dal.ConnectionModule;
 import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 
 public class Login extends javax.swing.JFrame {
     Connection connection;
@@ -9,8 +11,35 @@ public class Login extends javax.swing.JFrame {
     ResultSet rs;
     
     public Login() {
-        initComponents();
-        connection =  ConnectionModule.connector();
+        try {
+            initComponents();
+            connection =  ConnectionModule.connector();
+            
+            ImageIcon icon;
+            if (connection != null) icon = new ImageIcon(getClass().getResource("/br/com/loja/icons/dbOk.png"));
+            else icon = new ImageIcon(getClass().getResource("/br/com/loja/icons/dbError.png"));
+            lblStatus.setIcon(icon);
+        } catch( NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Icons not found!");
+        }
+    }
+    
+    public void login_action() {
+        try {
+            String sql = "SELECT * FROM users WHERE email=? and password=?";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, txtEmail.getText());
+            ps.setString(2, txtPassword.getText());
+            
+            rs = ps.executeQuery();
+            if (!rs.next()) throw new Exception("User not found");
+            
+            Index index = new Index();
+            index.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -22,6 +51,7 @@ public class Login extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
+        lblStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Log In");
@@ -66,11 +96,17 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(txtEmail)
                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(85, 85, 85))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(lblStatus)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addContainerGap()
+                .addComponent(lblStatus)
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -80,7 +116,7 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addComponent(btnLogin)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         pack();
@@ -92,8 +128,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        String email =  txtEmail.getText();
-        char[] password = txtPassword.getPassword();
+        login_action();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
@@ -139,6 +174,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
