@@ -26,16 +26,22 @@ public class Login extends javax.swing.JFrame {
     
     public void login_action() {
         try {
+            String email = txtEmail.getText();
+            String password = new String(txtPassword.getPassword());
+            
             String sql = "SELECT * FROM users WHERE email=? and password=?";
             ps = connection.prepareStatement(sql);
-            ps.setString(1, txtEmail.getText());
-            ps.setString(2, txtPassword.getText());
+            ps.setString(1, email);
+            ps.setString(2, password);
+            
             
             rs = ps.executeQuery();
             if (!rs.next()) throw new Exception("User not found");
             
             Index index = new Index();
             index.setVisible(true);
+            this.dispose();
+            connection.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             System.out.println(e.getMessage());
