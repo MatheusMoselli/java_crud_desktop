@@ -79,6 +79,7 @@ public class Index extends javax.swing.JFrame {
         MenuRegister.add(MenuRegisterOrders);
 
         MenuRegisterUsers.setText("Users");
+        MenuRegisterUsers.setEnabled(false);
         MenuRegisterUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuRegisterUsersActionPerformed(evt);
@@ -89,6 +90,7 @@ public class Index extends javax.swing.JFrame {
         Menu.add(MenuRegister);
 
         MenuReport.setText("Reports");
+        MenuReport.setEnabled(false);
 
         MenuReportServices.setText("Services");
         MenuReport.add(MenuReportServices);
@@ -160,7 +162,9 @@ public class Index extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuRegisterClientsActionPerformed
 
     private void MenuRegisterUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuRegisterUsersActionPerformed
-        // TODO add your handling code here:
+        Users users = new Users();
+        users.setVisible(true);
+        Desktop.add(users);
     }//GEN-LAST:event_MenuRegisterUsersActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -224,10 +228,10 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JMenu MenuRegister;
     private javax.swing.JMenuItem MenuRegisterClients;
     private javax.swing.JMenuItem MenuRegisterOrders;
-    private javax.swing.JMenuItem MenuRegisterUsers;
-    private javax.swing.JMenu MenuReport;
+    public static javax.swing.JMenuItem MenuRegisterUsers;
+    public static javax.swing.JMenu MenuReport;
     private javax.swing.JMenuItem MenuReportServices;
     private javax.swing.JLabel lblDate;
-    private javax.swing.JLabel lblUser;
+    public static javax.swing.JLabel lblUser;
     // End of variables declaration//GEN-END:variables
 }

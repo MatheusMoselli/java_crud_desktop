@@ -38,10 +38,20 @@ public class Login extends javax.swing.JFrame {
             rs = ps.executeQuery();
             if (!rs.next()) throw new Exception("User not found");
             
+            String perfil = rs.getString(6);
+            String username = rs.getString(2);
             Index index = new Index();
             index.setVisible(true);
+            
+            if(perfil.equals("admin")) {
+                Index.MenuRegisterUsers.setEnabled(true);
+                Index.MenuReport.setEnabled(true);
+            }
+            
+            Index.lblUser.setText(username);
             this.dispose();
             connection.close();
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             System.out.println(e.getMessage());

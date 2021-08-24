@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Jul-2021 às 19:11
+-- Tempo de geração: 24-Ago-2021 às 19:16
 -- Versão do servidor: 10.4.17-MariaDB
 -- versão do PHP: 8.0.2
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `java`
 --
+CREATE DATABASE IF NOT EXISTS `java` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `java`;
 
 -- --------------------------------------------------------
 
@@ -75,15 +77,18 @@ CREATE TABLE `users` (
   `username` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL
+  `password` varchar(50) DEFAULT NULL,
+  `profile` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `phone`, `email`, `password`) VALUES
-(1, 'jorgaoo', '978977979', 'jorge@hotmail.com', '123');
+INSERT INTO `users` (`id`, `username`, `phone`, `email`, `password`, `profile`) VALUES
+(1, 'jorgaoo', '978977979', 'jorge@hotmail.com', '123', 'admin'),
+(2, 'clebe', '1241254521521', 'clebe@hotmail.com', '123', 'user'),
+(3, 'kachoro', '125415252151', 'kachoro@hotmail.com', '123', 'admin');
 
 --
 -- Índices para tabelas despejadas
@@ -128,7 +133,7 @@ ALTER TABLE `order_services`
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restrições para despejos de tabelas
