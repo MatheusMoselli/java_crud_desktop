@@ -43,7 +43,7 @@ public class Login extends javax.swing.JFrame {
             Index index = new Index();
             index.setVisible(true);
             
-            if(perfil.equals("admin")) {
+            if(perfil.toUpperCase().equals("ADMIN")) {
                 Index.MenuRegisterUsers.setEnabled(true);
                 Index.MenuReport.setEnabled(true);
             }
