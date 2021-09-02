@@ -14,7 +14,125 @@ public class Users extends javax.swing.JInternalFrame {
         connection = ConnectionModule.connector();
     }
     
-    private void consult() {
+    private void clearFields() {
+        txtUsername.setText(null);
+        txtPhone.setText(null);
+        txtEmail.setText(null);
+        txtPassword.setText(null);
+        comboProfile.setSelectedIndex(0);
+    }
+    
+    private boolean isFieldsEmpty() {
+        return (txtUsername.getText().isEmpty() 
+                || txtPhone.getText().isEmpty() 
+                || txtEmail.getText().isEmpty() 
+                ||(new String(txtPassword.getPassword())).isEmpty());
+    }
+    
+    private void add() {
+        try {
+            if(isFieldsEmpty()) throw new Exception("Please, fill in all the fields");
+            
+            String sql = 
+                "INSERT INTO users (username, phone, email, password, profile)"
+                    + "VALUES (?,?,?,?,?);";
+            
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, txtUsername.getText());
+            ps.setString(2, txtPhone.getText());
+            ps.setString(3, txtEmail.getText());
+            ps.setString(4, new String(txtPassword.getPassword()));
+            ps.setString(5, comboProfile.getSelectedItem().toString());
+            int result = ps.executeUpdate();
+            
+            switch(result) {
+                case 1:
+                    clearFields();
+                    JOptionPane.showMessageDialog(null, "User successfully created!");
+                    break;
+                default:
+                    clearFields();
+                    throw new Exception("Something went wrong, please try again later");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    private void update() {
+                try {
+            String sql = "SELECT id FROM users WHERE email = ?";
+            
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, txtEmail.getText());
+            rs = ps.executeQuery();
+            
+            if (!rs.next()) throw new Exception("User not found");
+            
+            String id = rs.getString(1);
+            sql = "UPDATE users SET "
+                    + "username=?, "
+                    + "phone=?, "
+                    + "password=?, "
+                    + "profile=? "
+                    + "WHERE id=?";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, txtUsername.getText());
+            ps.setString(2, txtPhone.getText());
+            ps.setString(3, new String(txtPassword.getPassword()));
+            ps.setString(4, comboProfile.getSelectedItem().toString());
+            ps.setString(5, id);
+            int result = ps.executeUpdate();
+            
+            switch(result) {
+                case 1:
+                    clearFields();
+                    JOptionPane.showMessageDialog(null, "User successfully updated!");
+                    break;
+                default:
+                    clearFields();
+                    throw new Exception("Something went wrong, please try again later");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            clearFields();
+        }
+    }
+    
+    private void remove() {
+        try {
+            String sql = "SELECT id FROM users WHERE email = ?";
+            
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, txtEmail.getText());
+            rs = ps.executeQuery();
+            
+            if (!rs.next()) throw new Exception("User not found");
+            
+            String id = rs.getString(1);
+            sql = "DELETE FROM users WHERE id = " + id;
+            ps = connection.prepareStatement(sql);
+            int result = ps.executeUpdate();
+            
+            switch(result) {
+                case 1:
+                    clearFields();
+                    JOptionPane.showMessageDialog(null, "User successfully deleted!");
+                    break;
+                default:
+                    clearFields();
+                    throw new Exception("Something went wrong, please try again later");
+            }
+            
+            JOptionPane.showMessageDialog(null, "User successfully created!");
+            clearFields();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            clearFields();
+        }
+    }
+    
+    private void selectByEmail() {
         try {
             String sql = 
                 "SELECT * FROM users WHERE email LIKE '%" + 
@@ -37,11 +155,7 @@ public class Users extends javax.swing.JInternalFrame {
             );
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
-            txtUsername.setText(null);
-            txtPhone.setText(null);
-            txtEmail.setText(null);
-            txtPassword.setText(null);
-            comboProfile.setSelectedIndex(0);
+            clearFields();
         }
     }
 
@@ -84,7 +198,7 @@ public class Users extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Profile Type:");
 
-        comboProfile.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "User", "Admin", " " }));
+        comboProfile.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "User", "Admin" }));
 
         btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/icons/create.png"))); // NOI18N
         btnCreate.setToolTipText("Create");
@@ -100,6 +214,11 @@ public class Users extends javax.swing.JInternalFrame {
         btnDelete.setToolTipText("Delete");
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDelete.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnSelect.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/icons/read.png"))); // NOI18N
         btnSelect.setToolTipText("Search");
@@ -115,6 +234,11 @@ public class Users extends javax.swing.JInternalFrame {
         btnEdit.setToolTipText("Update");
         btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEdit.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,12 +317,20 @@ public class Users extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
+        add();
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
-        consult();
+        selectByEmail();
     }//GEN-LAST:event_btnSelectActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        remove();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        update();
+    }//GEN-LAST:event_btnEditActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

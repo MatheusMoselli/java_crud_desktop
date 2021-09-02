@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Ago-2021 às 19:16
+-- Tempo de geração: 02-Set-2021 às 16:01
 -- Versão do servidor: 10.4.17-MariaDB
 -- versão do PHP: 8.0.2
 
@@ -88,7 +88,11 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `phone`, `email`, `password`, `profile`) VALUES
 (1, 'jorgaoo', '978977979', 'jorge@hotmail.com', '123', 'admin'),
 (2, 'clebe', '1241254521521', 'clebe@hotmail.com', '123', 'user'),
-(3, 'kachoro', '125415252151', 'kachoro@hotmail.com', '123', 'admin');
+(3, 'kachoro', '125415252151', 'kachoro@hotmail.com', '123', 'admin'),
+(4, 'mt', '12412421', 'mt@', '123', 'User'),
+(7, 'larrisa', '421421', 'j@', '421412', 'User'),
+(8, 'mat', '414', 'r@', '123', 'User'),
+(9, 'Long', '2512958129', 'long@hotmail.com', '123', 'Admin');
 
 --
 -- Índices para tabelas despejadas
@@ -133,7 +137,7 @@ ALTER TABLE `order_services`
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restrições para despejos de tabelas
