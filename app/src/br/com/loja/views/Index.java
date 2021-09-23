@@ -137,7 +137,7 @@ public class Index extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addComponent(lblDate)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +150,7 @@ public class Index extends javax.swing.JFrame {
                 .addComponent(lblUser)
                 .addGap(48, 48, 48)
                 .addComponent(lblDate)
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addContainerGap(366, Short.MAX_VALUE))
         );
 
         pack();
@@ -158,7 +158,9 @@ public class Index extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MenuRegisterClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuRegisterClientsActionPerformed
-        // TODO add your handling code here:
+        Clients clients = new Clients();
+        clients.setVisible(true);
+        Desktop.add(clients);
     }//GEN-LAST:event_MenuRegisterClientsActionPerformed
 
     private void MenuRegisterUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuRegisterUsersActionPerformed
