@@ -3,6 +3,7 @@ package br.com.loja.views;
 import java.sql.*;
 import br.com.loja.dal.ConnectionModule;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 public class Clients extends javax.swing.JInternalFrame {
@@ -17,11 +18,13 @@ public class Clients extends javax.swing.JInternalFrame {
     
         
     private void clearFields() {
+        txtSearch.setText(null);
         txtId.setText(null);
         txtName.setText(null);
         txtPhone.setText(null);
         txtEmail.setText(null);
         txtAddress.setText(null);
+        ((DefaultTableModel)tblClients.getModel()).setRowCount(0);
     }
     
     private boolean isFieldsEmpty() {
@@ -33,7 +36,13 @@ public class Clients extends javax.swing.JInternalFrame {
     
     private void search() {
         try {
-            String sql = "SELECT * FROM clients WHERE name LIKE ?";
+            String sql = "SELECT "
+                    + "id as Id, "
+                    + "name as Name, "
+                    + "address as Address, "
+                    + "Phone as phone, "
+                    + "email as Email "
+                    + "FROM clients WHERE name LIKE ?";
             
             ps = connection.prepareStatement(sql);
             ps.setString(1, txtSearch.getText() + "%");
@@ -180,17 +189,26 @@ public class Clients extends javax.swing.JInternalFrame {
             }
         });
 
+        tblClients.setAutoCreateRowSorter(true);
         tblClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Name", "Address", "Phone", "Email"
+                "Id", "Name", "Address", "Phone", "Email"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblClients.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClientsMouseClicked(evt);
@@ -293,7 +311,7 @@ public class Clients extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
