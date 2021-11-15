@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02-Set-2021 às 16:01
+-- Tempo de geração: 15-Nov-2021 às 17:49
 -- Versão do servidor: 10.4.17-MariaDB
 -- versão do PHP: 8.0.2
 
@@ -42,7 +42,9 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `name`, `address`, `phone`, `email`) VALUES
-(1, 'Jorge', 'Vila Suissa', '978977979', 'jorge@hotmail.com');
+(3, 'teste', 'haha', '421421', 'teste2@'),
+(5, 'Jeff', 'Longeee', '132132131', 'jeff@hotmail.com'),
+(6, 'matheus', 'RUA papa joão XXIII', '11982844294', 'mat@hotmail.com');
 
 -- --------------------------------------------------------
 
@@ -52,19 +54,14 @@ INSERT INTO `clients` (`id`, `name`, `address`, `phone`, `email`) VALUES
 
 CREATE TABLE `order_services` (
   `id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `equipament` varchar(150) DEFAULT NULL,
+  `error` varchar(150) DEFAULT NULL,
+  `technician` varchar(50) DEFAULT NULL,
   `value` decimal(10,2) DEFAULT NULL,
   `service` varchar(150) DEFAULT NULL,
   `clientId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `order_services`
---
-
-INSERT INTO `order_services` (`id`, `created_at`, `equipament`, `value`, `service`, `clientId`) VALUES
-(1, '2021-07-27 17:10:23', 'Prego', '500.00', 'Pregar', 1);
 
 -- --------------------------------------------------------
 
@@ -109,7 +106,7 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `order_services`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_client_order` (`clientId`);
+  ADD KEY `clientId` (`clientId`);
 
 --
 -- Índices para tabela `users`
@@ -125,19 +122,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `order_services`
 --
 ALTER TABLE `order_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restrições para despejos de tabelas
@@ -147,7 +144,7 @@ ALTER TABLE `users`
 -- Limitadores para a tabela `order_services`
 --
 ALTER TABLE `order_services`
-  ADD CONSTRAINT `FK_client_order` FOREIGN KEY (`clientId`) REFERENCES `clients` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `order_services_ibfk_1` FOREIGN KEY (`clientId`) REFERENCES `clients` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

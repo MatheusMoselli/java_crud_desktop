@@ -52,7 +52,7 @@ public class Index extends javax.swing.JFrame {
         Desktop.setLayout(DesktopLayout);
         DesktopLayout.setHorizontalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 514, Short.MAX_VALUE)
+            .addGap(0, 1030, Short.MAX_VALUE)
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,6 +76,11 @@ public class Index extends javax.swing.JFrame {
         MenuRegister.add(MenuRegisterClients);
 
         MenuRegisterOrders.setText("Orders");
+        MenuRegisterOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuRegisterOrdersActionPerformed(evt);
+            }
+        });
         MenuRegister.add(MenuRegisterOrders);
 
         MenuRegisterUsers.setText("Users");
@@ -130,14 +135,11 @@ public class Index extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(lblUser))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(lblDate)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .addComponent(lblUser)
+                    .addComponent(lblDate))
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,11 +148,11 @@ public class Index extends javax.swing.JFrame {
                 .addComponent(Desktop)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addGap(87, 87, 87)
                 .addComponent(lblUser)
-                .addGap(48, 48, 48)
+                .addGap(29, 29, 29)
                 .addComponent(lblDate)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(474, Short.MAX_VALUE))
         );
 
         pack();
@@ -184,6 +186,12 @@ public class Index extends javax.swing.JFrame {
         About about = new About();
         about.setVisible(true);
     }//GEN-LAST:event_MenuHelpAboutActionPerformed
+
+    private void MenuRegisterOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuRegisterOrdersActionPerformed
+        Orders orders = new Orders();
+        orders.setVisible(true);
+        Desktop.add(orders);
+    }//GEN-LAST:event_MenuRegisterOrdersActionPerformed
 
     /**
      * @param args the command line arguments
