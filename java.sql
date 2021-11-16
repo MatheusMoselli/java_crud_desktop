@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15-Nov-2021 às 17:49
--- Versão do servidor: 10.4.17-MariaDB
--- versão do PHP: 8.0.2
+-- Tempo de geração: 16-Nov-2021 às 17:55
+-- Versão do servidor: 10.4.20-MariaDB
+-- versão do PHP: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,6 +55,8 @@ INSERT INTO `clients` (`id`, `name`, `address`, `phone`, `email`) VALUES
 CREATE TABLE `order_services` (
   `id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `type` varchar(150) NOT NULL,
+  `situation` varchar(150) NOT NULL,
   `equipament` varchar(150) DEFAULT NULL,
   `error` varchar(150) DEFAULT NULL,
   `technician` varchar(50) DEFAULT NULL,
@@ -62,6 +64,13 @@ CREATE TABLE `order_services` (
   `service` varchar(150) DEFAULT NULL,
   `clientId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `order_services`
+--
+
+INSERT INTO `order_services` (`id`, `created_at`, `type`, `situation`, `equipament`, `error`, `technician`, `value`, `service`, `clientId`) VALUES
+(1, '2021-11-16 16:51:18', 'Budget', 'Delivery OK', 'Desktop', 'not working', 'Matheus', '899.00', 'buy new motherboard', 3);
 
 -- --------------------------------------------------------
 
@@ -128,7 +137,7 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT de tabela `order_services`
 --
 ALTER TABLE `order_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `users`
