@@ -251,6 +251,11 @@ public class Orders extends javax.swing.JInternalFrame {
         });
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/icons/read.png"))); // NOI18N
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/icons/update.png"))); // NOI18N
 
@@ -373,6 +378,12 @@ public class Orders extends javax.swing.JInternalFrame {
         ((DefaultTableModel)tblClients.getModel()).setRowCount(0);
     }
     
+    private void disableCreateAndSearchButtons() {
+        btnCreate.setEnabled(false);
+        txtSearchClient.setEditable(false);
+        tblClients.setVisible(false);
+    }
+    
     private void add_order_service() {
         try {
             if(isFieldsEmpty()) throw new Exception("Please, fill in all the fields");
@@ -411,20 +422,38 @@ public class Orders extends javax.swing.JInternalFrame {
         txtIdClient.setText(tblClients.getModel().getValueAt(indexOfSelectedRow, 0).toString());
     }
     
-    private void search() {
+    private void search() {        
         try {
-            String sql = "SELECT "
-                    + "id as Id, "
-                    + "name as Name, "
-                    + "Phone as phone "
-                    + "FROM clients WHERE name LIKE ?";
+            String id = JOptionPane.showInputDialog("OS's number: ");
+            
+            String sql = "SELECT * FROM order_services WHERE id = " + id;
             
             ps = connection.prepareStatement(sql);
-            ps.setString(1, txtSearchClient.getText() + "%");
             rs = ps.executeQuery();
+            if (!rs.next()) 
+                throw new Exception("Service Order not found!");
+                        
+            String radioType = rs.getString(3);
+            if (radioType.toUpperCase().equals("SERVICE ORDER")) {
+                rbtOrder.setSelected(true);
+                type = "Service Order";
+            } else {
+                rbtBudget.setSelected(true);
+                type = "Budget";
+            }
             
-            tblClients.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException e) {
+            txtOSNumber.setText(rs.getString(1));
+            txtDate.setText(rs.getString(2));
+            cboStatus.setSelectedItem(rs.getString(4));
+            txtEquipament.setText(rs.getString(5));
+            txtError.setText(rs.getString(6));
+            txtTechnician.setText(rs.getString(7));
+            txtTotalValue.setText(rs.getString(8));
+            txtService.setText(rs.getString(9));
+            txtIdClient.setText(rs.getString(10));
+            
+            disableCreateAndSearchButtons();
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
@@ -461,6 +490,10 @@ public class Orders extends javax.swing.JInternalFrame {
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         add_order_service();
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        search();
+    }//GEN-LAST:event_btnSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
